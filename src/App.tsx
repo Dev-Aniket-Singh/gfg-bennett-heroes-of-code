@@ -1,5 +1,6 @@
 import React, { lazy, Suspense, useState, useEffect, useRef } from 'react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
+import { Analytics } from '@vercel/analytics/react';
 import { AuthProvider } from './context/AuthContext';
 import { Navbar } from './components/Navbar';
 import { HUD } from './components/HUD';
@@ -176,6 +177,7 @@ export default function App() {
     <AuthProvider>
       <AppContent />
       <SpeedInsights />
+      <Analytics />
     </AuthProvider>
   );
 }
