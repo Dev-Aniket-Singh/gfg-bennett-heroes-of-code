@@ -47,11 +47,21 @@ export const SpiralSlider: React.FC<SpiralSliderProps> = ({ onCategorySelect }) 
 
   const selectTrack = (index: number) => {
     playCardSelectSound();
-    physicsRef.current.targetAngle = -index * ((Math.PI * 2) / HIGHLIGHT_CATEGORIES.length);
+    const targetAngle = -index * ((Math.PI * 2) / HIGHLIGHT_CATEGORIES.length);
+    physicsRef.current.targetAngle = targetAngle;
+    if (isMobile) {
+      // Use a simple, discrete card switch on touch devices instead of a
+      // perpetual 3D animation/render loop.
+      physicsRef.current.currentAngle = targetAngle;
+      physicsRef.current.velocity = 0;
+      setHelixAngle(targetAngle);
+      setActiveCategoryIndex(index);
+    }
   };
 
   // Continuous Pointer Motion Engine for the 3D Spiral
   useEffect(() => {
+    if (isMobile) return;
     const container = containerRef.current;
     if (!container) return;
 
@@ -132,7 +142,7 @@ export const SpiralSlider: React.FC<SpiralSliderProps> = ({ onCategorySelect }) 
       container.removeEventListener('wheel', handleWheel);
       cancelAnimationFrame(animId);
     };
-  }, []);
+  }, [isMobile]);
 
   useEffect(() => {
     if (onCategorySelect) {
@@ -148,27 +158,19 @@ export const SpiralSlider: React.FC<SpiralSliderProps> = ({ onCategorySelect }) 
 
   const handleTouchEnd = (e: React.TouchEvent) => {
     const diff = touchStartX.current - e.changedTouches[0].clientX;
-    const step = (Math.PI * 2) / HIGHLIGHT_CATEGORIES.length;
     if (Math.abs(diff) > 40) {
-      playCardSelectSound();
-      if (diff > 0) {
-        physicsRef.current.targetAngle -= step;
-      } else {
-        physicsRef.current.targetAngle += step;
-      }
+      const direction = diff > 0 ? 1 : -1;
+      const next = (activeCategoryIndex + direction + HIGHLIGHT_CATEGORIES.length) % HIGHLIGHT_CATEGORIES.length;
+      selectTrack(next);
     }
   };
 
   const stepForward = () => {
-    playCardSelectSound();
-    const step = (Math.PI * 2) / HIGHLIGHT_CATEGORIES.length;
-    physicsRef.current.targetAngle -= step;
+    selectTrack((activeCategoryIndex + 1) % HIGHLIGHT_CATEGORIES.length);
   };
 
   const stepBackward = () => {
-    playCardSelectSound();
-    const step = (Math.PI * 2) / HIGHLIGHT_CATEGORIES.length;
-    physicsRef.current.targetAngle += step;
+    selectTrack((activeCategoryIndex - 1 + HIGHLIGHT_CATEGORIES.length) % HIGHLIGHT_CATEGORIES.length);
   };
 
   const count = HIGHLIGHT_CATEGORIES.length;
@@ -185,7 +187,7 @@ export const SpiralSlider: React.FC<SpiralSliderProps> = ({ onCategorySelect }) 
     >
       {/* 3D Helix Stage Container */}
       <div
-        className="relative h-[520px] sm:h-[480px] flex items-center justify-center preserve-3d"
+        className="relative h-[460px] sm:h-[480px] flex items-center justify-center preserve-3d"
         style={{
           transform: `rotateX(${physicsRef.current.pitchX}deg)`,
           transition: 'transform 0.15s ease-out',
@@ -206,7 +208,7 @@ export const SpiralSlider: React.FC<SpiralSliderProps> = ({ onCategorySelect }) 
           const opacity = Math.max(0.18, 0.25 + normZ * 0.75);
           const zIndex = Math.round(normZ * 50);
           const blur = Math.max(0, (1 - normZ) * 4);
-          const isFront = normZ > 0.88;
+          const isFront = isMobile ? idx === activeCategoryIndex : normZ > 0.88;
 
           return (
             <div
@@ -215,21 +217,23 @@ export const SpiralSlider: React.FC<SpiralSliderProps> = ({ onCategorySelect }) 
                 selectTrack(idx);
               }}
               style={{
-                transform: `translateX(${x}px) translateY(${y}px) translateZ(${z}px) rotateY(${rotateY}deg) scale(${scale})`,
+                transform: isMobile ? 'translate(-50%, -50%)' : `translateX(${x}px) translateY(${y}px) translateZ(${z}px) rotateY(${rotateY}deg) scale(${scale})`,
                 zIndex,
-                opacity,
-                filter: `blur(${blur}px)`,
+                opacity: isMobile ? (isFront ? 1 : 0) : opacity,
+                filter: isMobile ? 'none' : `blur(${blur}px)`,
                 pointerEvents: isFront ? 'auto' : 'none',
                 transition: 'filter 0.25s ease, box-shadow 0.3s ease, border-color 0.3s ease',
                 borderColor: isFront ? category.color : `${category.color}70`,
                 borderWidth: isFront ? '2px' : '1px',
-                boxShadow: isFront
+                boxShadow: isFront && isMobile
+                  ? `0 0 22px ${category.color}85, inset 0 0 28px ${category.color}28, 0 18px 50px rgba(0,0,0,0.72)`
+                  : isFront
                   ? `0 0 34px ${category.color}CC, 0 0 92px ${category.color}88, inset 0 0 56px ${category.color}42, inset 0 0 18px ${category.color}30, 0 24px 80px rgba(0,0,0,0.78)`
                   : `0 0 22px ${category.color}60, inset 0 0 32px ${category.color}18, 0 24px 80px rgba(0,0,0,0.72)`,
                 backgroundColor: 'rgba(5, 7, 12, 0.98)',
                 backgroundImage: `radial-gradient(ellipse at 14% 8%, ${category.color}5A, transparent 58%), radial-gradient(ellipse at 88% 96%, ${category.color}32, transparent 62%), linear-gradient(145deg, rgba(255,255,255,0.04), transparent 55%)`,
               }}
-              className="absolute w-[300px] sm:w-[350px] p-6 sm:p-7 rounded-3xl bg-[#0C1015]/94 backdrop-blur-xl border border-white/10 shadow-[0_24px_80px_rgba(0,0,0,0.65)] cursor-pointer preserve-3d group"
+              className={`absolute w-[min(300px,calc(100vw-2.5rem))] sm:w-[350px] p-6 sm:p-7 rounded-3xl bg-[#0C1015]/94 ${isMobile ? 'left-1/2 top-1/2 backdrop-blur-sm' : 'backdrop-blur-xl'} border border-white/10 shadow-[0_24px_80px_rgba(0,0,0,0.65)] cursor-pointer preserve-3d group`}
             >
               {/* Active Foreground Glowing Edge */}
               {isFront && (

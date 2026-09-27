@@ -14,6 +14,10 @@ export const EnergyBranches: React.FC<EnergyBranchesProps> = ({
   const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
+    // This decorative scroll-progress overlay is intentionally static on
+    // touch devices to avoid React renders during every mobile scroll frame.
+    if (isMobile) return;
+
     const handleScroll = () => {
       const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
       if (totalHeight > 0) {
@@ -23,7 +27,7 @@ export const EnergyBranches: React.FC<EnergyBranchesProps> = ({
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [isMobile]);
 
   return (
     <div

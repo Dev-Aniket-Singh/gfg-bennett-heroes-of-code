@@ -14,7 +14,7 @@ export const TheChallenge: React.FC = () => {
     <section id="challenges" className="relative py-24 sm:py-28 overflow-hidden select-none bg-[#07090D]/74">
       <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_50%_44%,rgba(101,25,37,0.08),transparent_56%),linear-gradient(135deg,rgba(24,28,35,0.13),transparent_42%)]" />
       <div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] rounded-full blur-[160px] opacity-25 pointer-events-none transition-all duration-700"
+        className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] rounded-full ${isMobile ? 'blur-[64px]' : 'blur-[160px]'} opacity-25 pointer-events-none transition-all duration-700`}
         style={{ backgroundColor: activeCategory.color }}
       />
 

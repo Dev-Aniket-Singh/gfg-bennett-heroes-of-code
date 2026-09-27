@@ -19,7 +19,9 @@ export const RegistrationPortal: React.FC<RegistrationPortalProps> = ({ onTransi
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    let animId: number;
+    let animId: number | null = null;
+    let isVisible = false;
+    let lastFrameAt = 0;
     let width = (canvas.width = canvas.parentElement?.clientWidth || 400);
     let height = (canvas.height = canvas.parentElement?.clientHeight || 400);
 
@@ -33,7 +35,7 @@ export const RegistrationPortal: React.FC<RegistrationPortalProps> = ({ onTransi
     }[] = [];
 
     const colors = ['#45252B', '#5A343D', '#79505A', '#AAB3C0', '#D4DAE2'];
-    const count = window.innerWidth < 640 ? 48 : 84;
+    const count = window.innerWidth < 640 ? 22 : 84;
 
     for (let i = 0; i < count; i++) {
       particles.push({
@@ -46,7 +48,20 @@ export const RegistrationPortal: React.FC<RegistrationPortalProps> = ({ onTransi
       });
     }
 
-    const render = () => {
+    const scheduleRender = () => {
+      if (isVisible && animId === null && !document.hidden) {
+        animId = requestAnimationFrame(render);
+      }
+    };
+
+    const render = (timestamp: number) => {
+      animId = null;
+      if (!isVisible || document.hidden) return;
+      if (window.innerWidth < 768 && timestamp - lastFrameAt < 40) {
+        scheduleRender();
+        return;
+      }
+      lastFrameAt = timestamp;
       ctx.clearRect(0, 0, width, height);
 
       const centerX = width / 2 + portalPointer.current.x * (isHovered ? 24 : 7);
@@ -76,10 +91,29 @@ export const RegistrationPortal: React.FC<RegistrationPortalProps> = ({ onTransi
         ctx.restore();
       }
 
-      animId = requestAnimationFrame(render);
+      scheduleRender();
     };
 
-    render();
+    const observer = new IntersectionObserver(([entry]) => {
+      isVisible = entry.isIntersecting;
+      if (isVisible) {
+        scheduleRender();
+      } else if (animId !== null) {
+        cancelAnimationFrame(animId);
+        animId = null;
+      }
+    }, { rootMargin: '120px' });
+    observer.observe(canvas);
+
+    const handleVisibilityChange = () => {
+      if (document.hidden && animId !== null) {
+        cancelAnimationFrame(animId);
+        animId = null;
+      } else {
+        scheduleRender();
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibilityChange);
 
     const handleResize = () => {
       if (!canvas.parentElement) return;
@@ -89,7 +123,9 @@ export const RegistrationPortal: React.FC<RegistrationPortalProps> = ({ onTransi
     window.addEventListener('resize', handleResize);
 
     return () => {
-      cancelAnimationFrame(animId);
+      observer.disconnect();
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      if (animId !== null) cancelAnimationFrame(animId);
       window.removeEventListener('resize', handleResize);
     };
   }, [isHovered, isActivating]);

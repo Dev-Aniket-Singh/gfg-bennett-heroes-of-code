@@ -6,6 +6,10 @@ export const HUD: React.FC = () => {
   const [missionClock, setMissionClock] = useState<string>('00:00:00:00');
 
   useEffect(() => {
+    // The telemetry is only rendered at XL breakpoints; don't run a hidden
+    // high-frequency clock on mobile.
+    if (!window.matchMedia('(min-width: 1280px)').matches) return;
+
     // Futuristic mission uptime ticker
     const startTime = Date.now();
     const interval = setInterval(() => {
@@ -17,7 +21,7 @@ export const HUD: React.FC = () => {
       setMissionClock(
         `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}:${String(centis).padStart(2, '0')}`
       );
-    }, 47);
+    }, 1000);
 
     return () => clearInterval(interval);
   }, []);

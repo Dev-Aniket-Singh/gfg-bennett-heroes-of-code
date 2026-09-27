@@ -34,7 +34,8 @@ export const ParticleField: React.FC<ParticleFieldProps> = ({
 
     let animationId: number;
     let particles: Particle[] = [];
-    const count = isMobile ? Math.floor(density * 0.42) : density;
+    const count = isMobile ? Math.floor(density * 0.25) : density;
+    let lastFrameAt = 0;
 
     const cosmicColors = ['#36171D', '#4B2029', '#642B36', '#8B4652', '#A3ABB7', '#CAD0D8'];
 
@@ -64,7 +65,7 @@ export const ParticleField: React.FC<ParticleFieldProps> = ({
     };
 
     const resize = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const dpr = Math.min(window.devicePixelRatio || 1, isMobile ? 1 : 2);
       const width = window.innerWidth;
       const height = window.innerHeight;
 
@@ -73,7 +74,7 @@ export const ParticleField: React.FC<ParticleFieldProps> = ({
       canvas.style.width = `${width}px`;
       canvas.style.height = `${height}px`;
 
-      ctx.scale(dpr, dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
       particles = [];
       for (let i = 0; i < count; i++) {
@@ -104,7 +105,13 @@ export const ParticleField: React.FC<ParticleFieldProps> = ({
 
     let time = 0;
 
-    const render = () => {
+    const render = (timestamp: number) => {
+      // Keep the ambient layer light on phones; the mesh remains interactive.
+      if (isMobile && timestamp - lastFrameAt < 40) {
+        animationId = requestAnimationFrame(render);
+        return;
+      }
+      lastFrameAt = timestamp;
       time += 1;
       const width = window.innerWidth;
       const height = window.innerHeight;
@@ -165,7 +172,7 @@ export const ParticleField: React.FC<ParticleFieldProps> = ({
       animationId = requestAnimationFrame(render);
     };
 
-    render();
+    render(0);
 
     return () => {
       window.removeEventListener('resize', resize);

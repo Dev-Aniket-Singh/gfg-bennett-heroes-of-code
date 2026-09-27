@@ -601,6 +601,21 @@ html.lenis, html.lenis body {
   to { transform: translate3d(-1%, 0.7%, 0) rotate(1deg); }
 }
 
+@media (max-width: 768px) {
+  /* Large translucent stacks are costly for mobile GPUs to backdrop-filter. */
+  .backdrop-blur-md,
+  .backdrop-blur-xl,
+  .backdrop-blur-2xl {
+    backdrop-filter: blur(4px) !important;
+    -webkit-backdrop-filter: blur(4px) !important;
+  }
+
+  .animate-spin-slow,
+  .animate-spin-reverse-slow {
+    animation-duration: 36s !important;
+  }
+}
+
 @media (max-width: 640px) {
   .comic-universe-background {
     inset: -14vh -10vw;

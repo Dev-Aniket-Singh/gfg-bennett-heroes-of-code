@@ -11,6 +11,9 @@ export const useLenis = (enabled: boolean = true) => {
   useEffect(() => {
     if (!enabled || typeof window === 'undefined') return;
 
+    // Native scrolling is lighter and more responsive on touch devices.
+    if (window.matchMedia('(max-width: 768px), (pointer: coarse)').matches) return;
+
     // Check if user prefers reduced motion
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReducedMotion) return;

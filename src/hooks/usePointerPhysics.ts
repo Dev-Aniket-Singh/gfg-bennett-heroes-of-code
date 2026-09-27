@@ -47,6 +47,10 @@ export const usePointerPhysics = (damping: number = 0.12): PointerState => {
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
+    // Touch layouts do not render the custom pointer parallax. Avoid running
+    // a permanent animation loop (and React state updates) on phones/tablets.
+    if (window.matchMedia('(max-width: 768px), (pointer: coarse)').matches) return;
+
     let animId: number;
 
     const onMouseMove = (e: MouseEvent) => {

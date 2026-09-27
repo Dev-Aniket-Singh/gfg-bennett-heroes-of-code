@@ -56,7 +56,7 @@ export const RewardVault: React.FC = () => {
 
       {/* Floating Energy Chamber Core Glow */}
       <div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full blur-[160px] pointer-events-none transition-all duration-300"
+        className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full ${isMobile ? 'blur-[64px]' : 'blur-[160px]'} pointer-events-none transition-all duration-300`}
         style={{
           width: `${520 * vaultEnergy}px`,
           height: `${520 * vaultEnergy}px`,

@@ -37,14 +37,14 @@ export const MeshFlow: React.FC = () => {
     let rows = 0;
     let animId: number | null = null;
     let previousFrame = 0;
-    const spacing = isMobile ? 76 : 54;
+    const spacing = isMobile ? 90 : 54;
 
     const scheduleFrame = () => {
       if (animId === null) animId = requestAnimationFrame(render);
     };
 
     const resize = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const dpr = Math.min(window.devicePixelRatio || 1, isMobile ? 1 : 2);
       const width = window.innerWidth;
       const height = window.innerHeight;
       canvas.width = Math.round(width * dpr);
