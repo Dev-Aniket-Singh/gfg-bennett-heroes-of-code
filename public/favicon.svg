@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <defs>
+    <radialGradient id="arcGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#00DF81" stop-opacity="1"/>
+      <stop offset="40%" stop-color="#00B86B" stop-opacity="0.8"/>
+      <stop offset="70%" stop-color="#00DF81" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#050608" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00DF81"/>
+      <stop offset="50%" stop-color="#FFB800"/>
+      <stop offset="100%" stop-color="#E62429"/>
+    </linearGradient>
+  </defs>
+  <circle cx="50" cy="50" r="48" fill="#080A0D" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
+  <circle cx="50" cy="50" r="38" stroke="url(#ringGrad)" stroke-width="2" stroke-dasharray="4 3"/>
+  <circle cx="50" cy="50" r="26" fill="url(#arcGlow)"/>
+  <circle cx="50" cy="50" r="14" fill="#050608" stroke="#00DF81" stroke-width="2"/>
+  <!-- Central GFG Brackets Fusion -->
+  <path d="M44 42 L39 50 L44 58" stroke="#00DF81" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M56 42 L61 50 L56 58" stroke="#00DF81" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="50" cy="50" r="2" fill="#FFFFFF"/>
+</svg>

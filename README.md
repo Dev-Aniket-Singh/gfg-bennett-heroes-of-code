@@ -1,28 +1,109 @@
-# 💫 About Me:
-🚀 About Me<br>🔭  I'm currently working on Building and Grinding<br>🌱  I'm currently learning Python, C++, JavaScript<br>🤔  I'm looking for help with B-2 Bomber<br>💬  Ask me about Anything you want<br>😄  Pronouns: He😎<br>
+# HEROES OF CODE
+### Flagship Hackathon & Technical Conclave
+**GeeksforGeeks Student Chapter × Bennett University**
 
-
-## 🌐 Socials:
-[![Instagram](https://img.shields.io/badge/Instagram-%23E4405F.svg?logo=Instagram&logoColor=white)](https://instagram.com/https://www.instagram.com/ghost_____pixel/?hl=en#) [![LinkedIn](https://img.shields.io/badge/LinkedIn-%230077B5.svg?logo=linkedin&logoColor=white)](https://linkedin.com/in/https://www.linkedin.com/in/aniket-singh-187583424/?lipi=urn%3Ali%3Apage%3Ad_flagship3_feed%3BeuCVYVboQbigyahjMhFAWg%3D%3D) [![Twitch](https://img.shields.io/badge/Twitch-%239146FF.svg?logo=Twitch&logoColor=white)](https://twitch.tv/shin_okkatsu) [![email](https://img.shields.io/badge/Email-D14836?logo=gmail&logoColor=white)](mailto:aniketsingh08.dev@gmail.com) 
-
-# 💻 Tech Stack:
-![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) ![C++](https://img.shields.io/badge/c++-%2300599C.svg?style=for-the-badge&logo=c%2B%2B&logoColor=white) ![C](https://img.shields.io/badge/c-%2300599C.svg?style=for-the-badge&logo=c&logoColor=white) ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white) ![Windows Terminal](https://img.shields.io/badge/Windows%20Terminal-%234D4D4D.svg?style=for-the-badge&logo=windows-terminal&logoColor=white) ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E) ![MySQL](https://img.shields.io/badge/mysql-4479A1.svg?style=for-the-badge&logo=mysql&logoColor=white) ![Adobe](https://img.shields.io/badge/adobe-%23FF0000.svg?style=for-the-badge&logo=adobe&logoColor=white) ![Adobe Acrobat Reader](https://img.shields.io/badge/Adobe%20Acrobat%20Reader-EC1C24.svg?style=for-the-badge&logo=Adobe%20Acrobat%20Reader&logoColor=white) ![Krita](https://img.shields.io/badge/Krita-203759?style=for-the-badge&logo=krita&logoColor=EEF37B) ![Blender](https://img.shields.io/badge/blender-%23F5792A.svg?style=for-the-badge&logo=blender&logoColor=white) ![Canva](https://img.shields.io/badge/Canva-%2300C4CC.svg?style=for-the-badge&logo=Canva&logoColor=white) ![Clip Studio Paint](https://img.shields.io/badge/ClipStudioPaint-%23CFD3D3.svg?style=for-the-badge&logo=ClipStudioPaint&logoColor=white) ![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white) ![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white) ![nVIDIA](https://img.shields.io/badge/nVIDIA-%2376B900.svg?style=for-the-badge&logo=nVIDIA&logoColor=white) ![Xbox](https://img.shields.io/badge/xbox-%23107C10.svg?style=for-the-badge&logo=xbox&logoColor=white) ![Unity](https://img.shields.io/badge/unity-%23000000.svg?style=for-the-badge&logo=unity&logoColor=white) ![Ubisoft](https://img.shields.io/badge/Ubisoft-%23F5F5F5.svg?style=for-the-badge&logo=Ubisoft&logoColor=black) ![Steam](https://img.shields.io/badge/steam-%23000000.svg?style=for-the-badge&logo=steam&logoColor=white) ![Riot Games](https://img.shields.io/badge/riotgames-D32936.svg?style=for-the-badge&logo=riotgames&logoColor=white) ![AMD](https://img.shields.io/badge/AMD-%23000000.svg?style=for-the-badge&logo=amd&logoColor=white)
-# 📊 GitHub Stats:
-![](https://github-readme-stats.shion.dev/api?username=Dev-Aniket-Singh&theme=dark&hide_border=false&include_all_commits=true&count_private=false)<br/>
-![](https://streak-stats.demolab.com/?user=Dev-Aniket-Singh&theme=dark&hide_border=false)<br/>
-![](https://github-readme-stats.shion.dev/api/top-langs/?username=Dev-Aniket-Singh&theme=dark&hide_border=false&include_all_commits=true&count_private=false&layout=compact)
-
-### ✍️ Random Dev Quote
-![](https://quotes-github-readme.vercel.app/api?type=horizontal&theme=radical)
-
-### 🔝 Top Contributed Repo
-![](https://github-contributor-stats.vercel.app/api?username=Dev-Aniket-Singh&limit=5&theme=dark&combine_all_yearly_contributions=true)
+> *Where Builders Assemble.* A cinematic, Marvel-inspired futuristic creative-agency event microsite and mission briefing experience.
 
 ---
-[![](https://komarev.com/ghpvc/?username=Dev-Aniket-Singh&icon=10&color=0)](https://visitcount.itsvg.in)
 
-  ## 💰 You can help me by Donating
-  [![BuyMeACoffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/Buy me a Monster) 
+## 🌟 Visual & Cinematic Experience
+- **Cinematic Opening Sequence**: Starts in pure space-black darkness as bioluminescent particles converge into the glowing brand seal: *GFG × BENNETT UNIVERSITY* → *HEROES OF CODE* → *THE SIGNAL IS LIVE*.
+- **Abyssal Hero Statement**: High-contrast editorial typography, live hackathon mission countdown, etched monochrome Iron Man blueprint, and real-time telemetry.
+- **Mesh Flow 2D Canvas**: Gravitational dot-matrix field that warps continuously around the user's pointer with spring physics and relaxes to equilibrium.
+- **Live Custom Cursor**: Multi-layer trailing energy ring that expands on interactive cards and changes color temperature according to the active hero sector (Red+Amber → Red+Blue → Electric Blue+Violet → Green).
+- **The Mission (Post Carousel)**: 3D stacked cards reacting to drag, touch swipe, wheel, and arrow keys with parallax depth. Accompanied by editable metadata cards (*DATE: TBA, TIME: TBA, VENUE: Bennett University*).
+- **The Challenge (Spiral Slider)**: 3D helix slider showcasing 5 core tracks (*CODE, AI, WEB, BUILD, COMPETE*) with reactive category glows.
+- **The Sequence (Wave Timeline)**: Flowing horizontal sinusoidal timeline on desktop and responsive vertical timeline on mobile, with Captain America's etched shield geometry.
+- **The Hero Vault (Rewards)**: 3D floating energy chamber with central champion podium, rotating energy rings, orbiting particle fields, and domain awards.
+- **The Assemble Portal**: Signature golden energy portal ring that intensifies on hover and expands with a particle warp transition directly into the registration flow.
+- **Authentication & Security Suite**: Complete frontend auth flow (`/login`, `/register`, `/dashboard`) with strong password validation, input sanitization against XSS, deterministic Operative ID badges (`GFG-BU-XXXX`), team management, and demo mode.
 
-  
-<!-- Proudly created with GPRM ( https://gprm.itsvg.in ) -->
+---
+
+## 🚀 Tech Stack
+- **Framework**: React 19 + TypeScript + Vite
+- **Styling**: Tailwind CSS with custom space-dark tokens and HUD glassmorphism
+- **Animation**: GSAP + ScrollTrigger
+- **Smooth Scrolling**: Lenis
+- **Interactive Shaders & Canvas**: Native HTML5 Canvas 2D (Mesh Flow, Particle Vortex, Portal Warp)
+- **Icons**: Lucide React
+- **Celebration**: Canvas-Confetti
+
+---
+
+## 🛠️ Quick Start & Local Development
+
+### 1. Clone & Install
+```bash
+git clone <repo-url>
+cd gfg
+npm install
+```
+
+### 2. Run Local Development Server
+```bash
+npm run dev
+```
+The dev server will launch at `http://127.0.0.1:5173/`.
+
+### 3. Build Production Bundle
+```bash
+npm run build
+```
+Creates an optimized, minified production build in the `dist/` directory.
+
+### 4. Preview Production Build
+```bash
+npm run preview
+```
+
+---
+
+## 🌐 Deploying to Replit
+This project is configured to run out-of-the-box on Replit:
+1. Import this repository into a new **Node.js / React** Repl.
+2. In the Replit `.replit` configuration, specify the run command:
+   ```toml
+   run = "npm run dev -- --host 0.0.0.0 --port 5173"
+   ```
+3. Replit will automatically detect port `5173` and expose the webview interface.
+4. For production deployment on Replit, run `npm run build` and serve `dist/` with a static server or preview command.
+
+---
+
+## ⚙️ Central Event Configuration
+To update dates, times, venue, tracks, or registration limits, edit [src/data/event.ts](file:///c:/Users/anike/OneDrive/Desktop/gfg/src/data/event.ts):
+
+```typescript
+export const EVENT_CONFIG = {
+  eventName: "HEROES OF CODE",
+  tagline: "WHERE BUILDERS ASSEMBLE.",
+  date: "TBA (AUTUMN 2026)",
+  time: "TBA (09:00 HRS IST)",
+  venue: "Bennett University, Greater Noida",
+  sector: "BU-SECTOR-01",
+  registration: {
+    status: "OPEN",
+    statusText: "LIMITED SLOTS AVAILABLE",
+    registeredCount: 342,
+    slotsLimit: 500,
+  },
+  // ...
+};
+```
+
+---
+
+## 🛡️ Authentication Architecture & Security
+- Located in [src/context/AuthContext.tsx](file:///c:/Users/anike/OneDrive/Desktop/gfg/src/context/AuthContext.tsx).
+- **Security Compliance**:
+  - Passwords are never stored in plaintext or persisted to insecure storage.
+  - All input fields are sanitized against script injections.
+  - Active sessions use ephemeral `sessionStorage` with token expiration modeling.
+  - Clearly separated demo/sandbox state with toggle ready for Supabase Auth, Firebase Auth, or custom REST/GraphQL APIs.
+  - Protected routes redirect unauthenticated users back to `/login`.
+
+---
+
+## 🎨 Asset Provenance
+See [ASSETS_README.md](file:///c:/Users/anike/OneDrive/Desktop/gfg/ASSETS_README.md) for full documentation of procedurally generated vector blueprints, Canvas mesh systems, and font licensing.
