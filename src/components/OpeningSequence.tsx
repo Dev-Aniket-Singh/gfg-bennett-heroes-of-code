@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { usePrefersReducedMotion } from '../hooks/useMediaQuery';
 import shieldArt from '../assets/captain-shield.png';
+import shieldRotationSound from '../assets/heroes-of-code-title-sound.wav';
 
 interface OpeningSequenceProps {
   onComplete: () => void;
@@ -53,6 +54,39 @@ export const OpeningSequence: React.FC<OpeningSequenceProps> = ({ onComplete }) 
       window.clearTimeout(exit);
       if (finishTimerRef.current !== null) window.clearTimeout(finishTimerRef.current);
       window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [prefersReducedMotion]);
+
+  // Start the supplied sound in time with the shield spin. Try autoplay first;
+  // if the browser blocks it, retry on the visitor's first intentional input.
+  useEffect(() => {
+    if (prefersReducedMotion) return;
+
+    const audio = new Audio(shieldRotationSound);
+    audio.preload = 'auto';
+    audio.volume = 0.52;
+    let disposed = false;
+    let playing = false;
+
+    const startOnInteraction = () => {
+      if (disposed || playing) return;
+      void audio.play().then(() => {
+        playing = true;
+        window.removeEventListener('pointerdown', startOnInteraction);
+        window.removeEventListener('keydown', startOnInteraction);
+      }).catch(() => undefined);
+    };
+
+    window.addEventListener('pointerdown', startOnInteraction);
+    window.addEventListener('keydown', startOnInteraction);
+    startOnInteraction();
+
+    return () => {
+      disposed = true;
+      window.removeEventListener('pointerdown', startOnInteraction);
+      window.removeEventListener('keydown', startOnInteraction);
+      audio.pause();
+      audio.currentTime = 0;
     };
   }, [prefersReducedMotion]);
 
