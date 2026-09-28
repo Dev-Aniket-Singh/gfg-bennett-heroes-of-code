@@ -24,8 +24,8 @@ export const AssemblyMesh: React.FC = () => {
     let lastFrame = 0;
     let time = 0;
     const pointer = { x: -1000, y: -1000, tx: -1000, ty: -1000, active: false, strength: 0 };
-    const spacing = isMobile ? 72 : 56;
-    const embers: Ember[] = Array.from({ length: isMobile ? 18 : 48 }, () => ({
+    const spacing = isMobile ? 104 : 64;
+    const embers: Ember[] = Array.from({ length: isMobile ? 8 : 40 }, () => ({
       x: Math.random(), y: Math.random(), speed: 0.00008 + Math.random() * 0.00018,
       radius: 0.6 + Math.random() * 1.2, alpha: 0.12 + Math.random() * 0.28,
     }));
@@ -50,14 +50,19 @@ export const AssemblyMesh: React.FC = () => {
     };
 
     const onPointerMove = (event: PointerEvent) => {
+      if (reducedMotion) return;
       if (event.pointerType === 'touch' && !pointer.active) return;
       pointer.tx = event.clientX;
       pointer.ty = event.clientY;
       pointer.active = true;
+      window.clearTimeout(idleTimer);
+      idleTimer = window.setTimeout(() => { pointer.active = false; schedule(); }, 120);
       if (!reducedMotion) schedule();
     };
     const onPointerDown = (event: PointerEvent) => {
+      if (reducedMotion) return;
       if (event.pointerType === 'touch') {
+        window.clearTimeout(idleTimer);
         pointer.active = true;
         pointer.tx = event.clientX;
         pointer.ty = event.clientY;
@@ -65,15 +70,17 @@ export const AssemblyMesh: React.FC = () => {
       }
     };
     const onPointerUp = (event: PointerEvent) => {
-      if (event.pointerType === 'touch') pointer.active = false;
+      if (event.pointerType === 'touch') { pointer.active = false; schedule(); }
     };
-    const onPointerLeave = () => { pointer.active = false; };
+    let idleTimer = 0;
+    const onPointerLeave = () => { pointer.active = false; window.clearTimeout(idleTimer); schedule(); };
 
     const draw = () => {
       ctx.clearRect(0, 0, width, height);
       const basePath = new Path2D();
       const energizedPath = new Path2D();
       const radius = isMobile ? 120 : 190;
+      let meshSettling = false;
 
       for (let row = 0; row < rows; row++) {
         for (let col = 0; col < cols; col++) {
@@ -89,6 +96,7 @@ export const AssemblyMesh: React.FC = () => {
           point.vy = (point.vy + (targetY - point.y) * 0.17) * 0.78;
           point.x += point.vx;
           point.y += point.vy;
+          if (Math.abs(point.vx) + Math.abs(point.vy) > 0.08 || Math.abs(point.x - point.ox) + Math.abs(point.y - point.oy) > 0.16) meshSettling = true;
 
           if (col < cols - 1) {
             const right = points[row * cols + col + 1];
@@ -129,6 +137,7 @@ export const AssemblyMesh: React.FC = () => {
           ctx.fillRect(ember.x * width, ember.y * height, ember.radius, ember.radius);
         }
       }
+      return meshSettling;
     };
 
     function schedule() {
@@ -138,16 +147,16 @@ export const AssemblyMesh: React.FC = () => {
     function render(timestamp: number) {
       frame = 0;
       if (document.hidden) return;
-      const targetFps = isMobile ? 24 : 30;
+      const targetFps = isMobile ? 20 : 30;
       if (timestamp - lastFrame < 1000 / targetFps) { schedule(); return; }
       lastFrame = timestamp;
       time += 1000 / targetFps;
       pointer.x += (pointer.tx - pointer.x) * 0.22;
       pointer.y += (pointer.ty - pointer.y) * 0.22;
       pointer.strength += ((pointer.active ? 1 : 0) - pointer.strength) * 0.12;
-      draw();
-      const settling = Math.abs(pointer.tx - pointer.x) + Math.abs(pointer.ty - pointer.y) > 0.8 || pointer.strength > 0.015;
-      if (!reducedMotion || settling) schedule();
+      const meshSettling = draw();
+      const settling = Math.abs(pointer.tx - pointer.x) + Math.abs(pointer.ty - pointer.y) > 0.8 || pointer.strength > 0.015 || meshSettling;
+      if ((!isMobile && !reducedMotion) || settling) schedule();
     }
 
     const visibility = () => { if (!document.hidden && !reducedMotion) schedule(); };
@@ -166,6 +175,7 @@ export const AssemblyMesh: React.FC = () => {
       window.removeEventListener('pointerdown', onPointerDown);
       window.removeEventListener('pointerup', onPointerUp);
       window.removeEventListener('blur', onPointerLeave);
+      window.clearTimeout(idleTimer);
       document.removeEventListener('visibilitychange', visibility);
       if (frame) cancelAnimationFrame(frame);
     };
