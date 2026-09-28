@@ -8,6 +8,7 @@ import { MeshFlow } from './components/MeshFlow';
 import { ParticleField } from './components/ParticleField';
 import { EnergyBranches } from './components/EnergyBranches';
 import { OpeningSequence } from './components/OpeningSequence';
+import { BackgroundMusic } from './components/BackgroundMusic';
 import { Home } from './pages/Home';
 import { useLenis } from './hooks/useLenis';
 import comicCollage from './assets/comic-universe.png';
@@ -131,6 +132,8 @@ export const AppContent: React.FC = () => {
 
       {/* Ambient Edge HUD Telemetry */}
       {!isAssemblyRoute && <HUD />}
+
+      <BackgroundMusic />
 
       {/* HUD Navigation Bar */}
       {!isAssemblyRoute && <Navbar
