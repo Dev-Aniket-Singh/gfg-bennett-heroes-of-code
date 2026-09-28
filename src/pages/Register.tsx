@@ -6,9 +6,10 @@ import confetti from 'canvas-confetti';
 
 interface RegisterProps {
   navigate: (path: string) => void;
+  mode?: 'standard' | 'team' | 'solo';
 }
 
-export const Register: React.FC<RegisterProps> = ({ navigate }) => {
+export const Register: React.FC<RegisterProps> = ({ navigate, mode = 'standard' }) => {
   const { signUp, isLoading, isDemoMode } = useAuth();
 
   const [formData, setFormData] = useState({
@@ -52,6 +53,7 @@ export const Register: React.FC<RegisterProps> = ({ navigate }) => {
     }
 
     if (!formData.college.trim()) errs.college = 'Institution / base sector required.';
+    if (mode === 'team' && !formData.teamName.trim()) errs.teamName = 'Squad callsign is required for team registration.';
 
     setErrors(errs);
     return Object.keys(errs).length === 0;
@@ -97,7 +99,7 @@ export const Register: React.FC<RegisterProps> = ({ navigate }) => {
         <div className="mb-8 flex items-center justify-between">
           <GlowRingButton
             variant="amber"
-            onClick={() => navigate('/')}
+            onClick={() => navigate(mode === 'standard' ? '/' : '/assembly')}
             icon={<ArrowLeft className="w-4 h-4" />}
           >
             RETURN TO BASE
@@ -116,7 +118,7 @@ export const Register: React.FC<RegisterProps> = ({ navigate }) => {
             </div>
 
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-mono text-xs uppercase tracking-widest mb-4">
-              MISSION STATUS: REGISTRATION CONFIRMED
+              {mode === 'standard' ? 'MISSION STATUS: REGISTRATION CONFIRMED' : 'DEMO PROFILE READY · NOT SUBMITTED'}
             </div>
 
             <h2 className="text-3xl sm:text-4xl font-black font-display text-white mb-2">
@@ -124,7 +126,9 @@ export const Register: React.FC<RegisterProps> = ({ navigate }) => {
             </h2>
 
             <p className="text-sm text-slate-400 font-body mb-8 max-w-md mx-auto">
-              Your credentials have been authenticated and archived into the Heroes of Code registry.
+              {mode === 'standard'
+                ? 'Your credentials have been authenticated and archived into the Heroes of Code registry.'
+                : 'This is a local demo session only. No registration has been sent to or saved by a server.'}
             </p>
 
             <div className="max-w-md mx-auto p-6 rounded-2xl bg-space-950/80 border border-white/15 mb-8 text-left relative overflow-hidden shadow-2xl">
@@ -169,7 +173,7 @@ export const Register: React.FC<RegisterProps> = ({ navigate }) => {
               </GlowRingButton>
 
               <button
-                onClick={() => navigate('/')}
+                onClick={() => navigate(mode === 'standard' ? '/' : '/assembly')}
                 className="w-full sm:w-auto px-6 py-3 rounded-full bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 text-xs font-mono text-slate-300 hover:text-white transition-all interactive"
               >
                 RETURN HOME
@@ -185,11 +189,13 @@ export const Register: React.FC<RegisterProps> = ({ navigate }) => {
               </div>
 
               <h2 className="text-3xl sm:text-4xl font-black font-display text-white tracking-tight mb-2">
-                OPERATIVE REGISTRATION
+                {mode === 'team' ? 'TEAM REGISTRATION' : mode === 'solo' ? 'SOLO REGISTRATION' : 'OPERATIVE REGISTRATION'}
               </h2>
 
               <p className="text-xs sm:text-sm text-slate-400 font-body">
-                Enter your credentials to reserve your clearance at Heroes of Code.
+                {mode === 'standard'
+                  ? 'Enter your credentials to reserve your clearance at Heroes of Code.'
+                  : `Complete this demo profile for the Heroes of Code ${mode} pathway.`}
               </p>
             </div>
 
@@ -370,9 +376,9 @@ export const Register: React.FC<RegisterProps> = ({ navigate }) => {
                 </div>
               </div>
 
-              <div>
+              {mode !== 'solo' && <div>
                 <label className="block text-xs font-mono text-slate-300 uppercase tracking-wider mb-2">
-                  Squad / Team Name (Optional)
+                  Squad / Team Name {mode === 'team' ? '*' : '(Optional)'}
                 </label>
                 <div className="relative">
                   <Users className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
@@ -380,19 +386,20 @@ export const Register: React.FC<RegisterProps> = ({ navigate }) => {
                     type="text"
                     value={formData.teamName}
                     onChange={(e) => setFormData({ ...formData, teamName: e.target.value })}
-                    placeholder="e.g. Arc Reactors, Byte Avengers (Leave blank if solo)"
+                    placeholder={mode === 'team' ? 'Enter your squad callsign' : 'e.g. Arc Reactors, Byte Avengers'}
                     className="w-full pl-10 pr-4 py-3 rounded-xl bg-space-950/70 border border-white/10 focus:border-gfg-green text-sm text-white font-body outline-none transition-all"
                   />
                 </div>
+                {errors.teamName && <span className="text-[11px] font-mono text-rose-400 mt-1 block">{errors.teamName}</span>}
                 <span className="text-[10px] font-mono text-slate-500 mt-1 block">
-                  You can recruit or link teammates inside Mission Control after registration.
+                  {mode === 'team' ? 'This demo asks for your squad name.' : 'You can recruit or link teammates inside Mission Control after registration.'}
                 </span>
-              </div>
+              </div>}
 
               <div className="p-3.5 rounded-xl bg-white/[0.02] border border-white/[0.05] text-[11px] font-mono text-slate-500 flex items-center gap-2">
                 <ShieldCheck className="w-4 h-4 text-emerald-400 flex-shrink-0" />
                 <span>
-                  {isDemoMode ? 'SANDBOX PROTOCOL: Passwords sanitized & encrypted. Ready for live backend attachment.' : 'SECURE PRODUCTION ENDPOINT'}
+                  {mode !== 'standard' ? 'DEMO ONLY: No registration is sent to a server.' : isDemoMode ? 'SANDBOX PROTOCOL: Passwords sanitized & encrypted. Ready for live backend attachment.' : 'SECURE PRODUCTION ENDPOINT'}
                 </span>
               </div>
 
@@ -403,7 +410,7 @@ export const Register: React.FC<RegisterProps> = ({ navigate }) => {
                   disabled={isLoading}
                   className="w-full sm:w-auto px-8 py-4 text-sm font-bold shadow-glow-gfg"
                 >
-                  {isLoading ? 'ENCRYPTING TRANSMISSION...' : 'JOIN THE ASSEMBLY'}
+                  {isLoading ? 'PREPARING PROFILE...' : mode === 'team' ? 'CREATE DEMO SQUAD' : mode === 'solo' ? 'CREATE SOLO PROFILE' : 'JOIN THE ASSEMBLY'}
                 </GlowRingButton>
 
                 <div className="text-xs font-mono text-slate-400">

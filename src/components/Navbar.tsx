@@ -64,7 +64,7 @@ export const Navbar: React.FC<NavbarProps> = ({
     if (onAssembleClick) {
       onAssembleClick();
     } else if (navigate) {
-      navigate('/register');
+      navigate('/assembly');
     }
   };
 
@@ -202,7 +202,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             <button
               onClick={() => {
                 setMobileMenuOpen(false);
-                if (navigate) navigate('/register');
+                if (navigate) navigate('/assembly');
               }}
               className="flex items-center justify-between py-3 border-b border-white/[0.06] text-left font-display text-xl font-bold text-amber-400"
             >

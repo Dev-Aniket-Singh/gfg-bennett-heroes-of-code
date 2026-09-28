@@ -14,21 +14,25 @@ import comicCollage from './assets/comic-universe.png';
 import comicAction from './assets/comic-action.png';
 
 const Register = lazy(() => import('./pages/Register').then((module) => ({ default: module.Register })));
+const Assembly = lazy(() => import('./pages/Assembly').then((module) => ({ default: module.Assembly })));
 const Login = lazy(() => import('./pages/Login').then((module) => ({ default: module.Login })));
 const Dashboard = lazy(() => import('./pages/Dashboard').then((module) => ({ default: module.Dashboard })));
+
+const resolvePath = (path: string) => {
+  if (path === '/assembly') return '/assembly';
+  if (path === '/registration/team') return '/registration/team';
+  if (path === '/registration/solo') return '/registration/solo';
+  if (path.startsWith('/register')) return '/register';
+  if (path.startsWith('/login')) return '/login';
+  if (path.startsWith('/dashboard')) return '/dashboard';
+  return '/';
+};
 
 export const AppContent: React.FC = () => {
   // Simple, rock-solid client-side router compatible with Replit & Vite
   const [currentPath, setCurrentPath] = useState<string>(() => {
     if (typeof window !== 'undefined') {
-      const path = window.location.pathname;
-      return path.startsWith('/register')
-        ? '/register'
-        : path.startsWith('/login')
-        ? '/login'
-        : path.startsWith('/dashboard')
-        ? '/dashboard'
-        : '/';
+      return resolvePath(window.location.pathname);
     }
     return '/';
   });
@@ -48,6 +52,7 @@ export const AppContent: React.FC = () => {
   const [cursorTheme, setCursorTheme] = useState<
     'red-amber' | 'red-blue' | 'blue-violet' | 'green' | 'blue-red' | 'default'
   >('red-amber');
+  const isAssemblyRoute = currentPath === '/assembly';
 
   // Activate Lenis smooth scrolling when on the home page
   useLenis(currentPath === '/' && openingCompleted);
@@ -74,16 +79,7 @@ export const AppContent: React.FC = () => {
   // Sync with browser history back/forward
   useEffect(() => {
     const handlePopState = () => {
-      const path = window.location.pathname;
-      setCurrentPath(
-        path.startsWith('/register')
-          ? '/register'
-          : path.startsWith('/login')
-          ? '/login'
-          : path.startsWith('/dashboard')
-          ? '/dashboard'
-          : '/'
-      );
+      setCurrentPath(resolvePath(window.location.pathname));
     };
 
     window.addEventListener('popstate', handlePopState);
@@ -108,42 +104,42 @@ export const AppContent: React.FC = () => {
 
   return (
     <div className="relative min-h-screen bg-[#050608] text-[#E0E2EC] overflow-x-hidden selection:bg-gfg-green selection:text-black">
-      <div
+      {!isAssemblyRoute && <div
         ref={comicBackgroundRef}
         className="comic-universe-background"
         style={{ '--comic-collage': `url(${comicCollage})`, '--comic-action': `url(${comicAction})` } as React.CSSProperties}
         aria-hidden="true"
-      />
-      <div className="comic-universe-vignette" aria-hidden="true" />
+      />}
+      {!isAssemblyRoute && <div className="comic-universe-vignette" aria-hidden="true" />}
       {/* Film Grain Texture Overlay */}
-      <div className="noise-overlay" aria-hidden="true" />
+      {!isAssemblyRoute && <div className="noise-overlay" aria-hidden="true" />}
 
-      <div className="crimson-atmosphere" aria-hidden="true" />
+      {!isAssemblyRoute && <div className="crimson-atmosphere" aria-hidden="true" />}
 
       {/* Interactive 2D Canvas Mesh Flow */}
-      <MeshFlow />
+      {!isAssemblyRoute && <MeshFlow />}
 
       {/* Bioluminescent Drifting Particles */}
-      <ParticleField />
+      {!isAssemblyRoute && <ParticleField />}
 
       {currentPath === '/' && (
         <EnergyBranches activeSection={currentSectionIndex} accentColor="#A4515C" />
       )}
 
       {/* Live Custom Cursor System */}
-      <CustomCursor currentTheme={cursorTheme} />
+      {!isAssemblyRoute && <CustomCursor currentTheme={cursorTheme} />}
 
       {/* Ambient Edge HUD Telemetry */}
-      <HUD />
+      {!isAssemblyRoute && <HUD />}
 
       {/* HUD Navigation Bar */}
-      <Navbar
+      {!isAssemblyRoute && <Navbar
         currentSectionIndex={currentSectionIndex}
         totalSections={6}
         activePath={currentPath}
         navigate={navigate}
-        onAssembleClick={() => navigate('/register')}
-      />
+        onAssembleClick={() => navigate('/assembly')}
+      />}
 
       {/* Cinematic Opening Sequence */}
       {!openingCompleted && currentPath === '/' && (
@@ -155,12 +151,18 @@ export const AppContent: React.FC = () => {
         <Suspense fallback={<div className="min-h-screen grid place-items-center bg-[#050608] font-mono text-xs tracking-widest text-red-300">LOADING MISSION CONTROL...</div>}>
           {currentPath === '/' && (
             <Home
-              onAssembleNavigate={() => navigate('/register')}
+              onAssembleNavigate={() => navigate('/assembly')}
               onSectionChange={handleSectionChange}
             />
           )}
 
+          {currentPath === '/assembly' && <Assembly navigate={navigate} />}
+
           {currentPath === '/register' && <Register navigate={navigate} />}
+
+          {currentPath === '/registration/team' && <Register navigate={navigate} mode="team" />}
+
+          {currentPath === '/registration/solo' && <Register navigate={navigate} mode="solo" />}
 
           {currentPath === '/login' && <Login navigate={navigate} />}
 
